@@ -6,7 +6,6 @@ const { typeDefs } = require('./schemas/typeDefs')
 const { resolvers } = require('./schemas/resolvers')
 
 const app = express()
-const PORT = process.env.PORT || 5000
 
 const startApolloServer = async () => {
   const server = new ApolloServer({
@@ -23,6 +22,8 @@ const startApolloServer = async () => {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
   })
+
+  const PORT = process.env.PORT || 5000
 
   sequelize.sync().then(() => {
     app.listen(PORT, () => {
