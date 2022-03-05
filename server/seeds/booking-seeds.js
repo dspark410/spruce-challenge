@@ -5,6 +5,7 @@ const bookingTypes = ['House Keeping', 'Dog Walk']
 
 const bookings = []
 
+// create fake data from faker.js
 for (let i = 0; i < 100; i++) {
   const booking = {}
 
@@ -34,6 +35,7 @@ for (let i = 0; i < 100; i++) {
 
 //console.log(bookings)
 
+// seeding fxn
 const seedBookings = () => Booking.bulkCreate(bookings)
 
 module.exports = seedBookings

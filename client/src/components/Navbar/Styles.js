@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
 const NavbarContainer = styled.div`
+  display: flex;
   background-color: #fff;
-  margin: 0 auto;
+  margin: 0 auto 1rem; auto;
+  padding: 0.5rem 0;
 `
 const LogoImg = styled.img`
   width: 108px;

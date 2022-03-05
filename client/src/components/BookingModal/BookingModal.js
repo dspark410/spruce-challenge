@@ -19,6 +19,7 @@ import {
   InputSelect,
   CreateBookingButton,
 } from './Styles'
+import Loader from '../Loader/Loader'
 
 function BookingModal({ closeModal }) {
   const [formValues, setFormValues] = useState({
@@ -37,15 +38,18 @@ function BookingModal({ closeModal }) {
     refetchQueries: [GET_BOOOKINGS],
   })
 
+  // handle form values and put into state
   const handleChange = (e) => {
     const copiedValues = { ...formValues }
     copiedValues[e.target.name] = e.target.value
     setFormValues(copiedValues)
   }
 
+  // create a new booking
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      // destructure formValues obj
       const {
         name,
         email,
@@ -57,6 +61,8 @@ function BookingModal({ closeModal }) {
         bookingDate,
         bookingTime,
       } = formValues
+
+      // if any fields are empty show alert otherwise create a booking
       if (
         name !== '' &&
         email !== '' &&
@@ -81,6 +87,7 @@ function BookingModal({ closeModal }) {
     }
   }
 
+  // show alert error if there is an error on fetching data
   useEffect(() => {
     if (error) {
       console.log(error)
@@ -88,13 +95,14 @@ function BookingModal({ closeModal }) {
     }
   }, [error])
 
+  // show spinning loader while waiting for data
   if (loading) {
-    return <div>...loading</div>
+    return <Loader />
   }
 
   return (
     <BackDrop>
-      <ModalContainer refetchQueries={[{ query: GET_BOOOKINGS }]}>
+      <ModalContainer>
         <BookingHeaderCloseButtonContainer>
           <CreateBookingHeader>Create booking</CreateBookingHeader>
           <CloseModalButton onClick={closeModal}>X</CloseModalButton>
@@ -173,7 +181,7 @@ function BookingModal({ closeModal }) {
                   onChange={handleChange}
                   defaultValue={'-- select an option --'}>
                   <option disabled>-- select an option --</option>
-                  <option defaultalue='House Keeping'>Housekeeping</option>
+                  <option value='House Keeping'>Housekeeping</option>
                   <option value='Dog Walk'>Dog Walk</option>
                 </InputSelect>
               </InputContainer>

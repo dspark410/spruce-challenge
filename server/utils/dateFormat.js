@@ -13,6 +13,7 @@ const monthNames = [
   'December',
 ]
 
+// manipulate booking date data into proper format
 const dateFormatter = (booking) => {
   const bookingDateArr = booking.dataValues.bookingDate.split('-')
   const bookingTimeArr = booking.dataValues.bookingTime.split(':')

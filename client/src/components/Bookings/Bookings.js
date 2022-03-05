@@ -6,23 +6,47 @@ import {
   BookingsContainer,
   BookingsHeaderContainer,
   BookingsHeader,
+  FilterBookingCreateBookingContainer,
+  FilterBookingsSpan,
+  Select,
   BookingsLabelsContainer,
   BookingLabel,
+  BookingDateTimeLabel,
   DataContainer,
-  BookingDataContainer,
-  BookingData,
   CreateBookingButton,
 } from './Styles'
+import AllBookings from '../AllBookings/AllBookings'
+import DogBookings from '../DogBookings/DogBookings'
+import HouseBookings from '../HouseBookings/HouseBookings'
+import Loader from '../Loader/Loader'
 
 function Bookings() {
   const [openModal, setOpenModal] = useState(false)
-
-  const closeModal = () => setOpenModal(false)
+  const [bookings, setBookings] = useState({
+    allBookings: true,
+    dogWalkBookings: false,
+    houseKeepingBookings: false,
+  })
 
   const { loading, data, error } = useQuery(GET_BOOOKINGS)
 
-  //console.log(data)
+  // close create booking modal
+  const closeModal = () => setOpenModal(false)
 
+  // filter booking types on select
+  const handleChange = (e) => {
+    const bookingObj = {
+      ...bookings,
+      allBookings: false,
+      dogWalkBookings: false,
+      houseKeepingBookings: false,
+      [e.target.value]: true,
+    }
+
+    setBookings(bookingObj)
+  }
+
+  // show alert error if there is an error on fetching data
   useEffect(() => {
     if (error) {
       console.log(error)
@@ -30,48 +54,45 @@ function Bookings() {
     }
   }, [error])
 
+  // show spinning loader while waiting for data
   if (loading) {
-    return <div>...loading</div>
+    return <Loader />
   }
 
   return (
     <BookingsContainer>
       <BookingsHeaderContainer>
         <BookingsHeader>Bookings</BookingsHeader>
-        <CreateBookingButton onClick={() => setOpenModal(true)}>
-          Create booking
-        </CreateBookingButton>
+        <FilterBookingCreateBookingContainer>
+          <div>
+            <FilterBookingsSpan>Filter Bookings:</FilterBookingsSpan>
+            <Select onChange={handleChange}>
+              <option value='allBookings'>All</option>
+              <option value='dogWalkBookings'>Dog Walks</option>
+              <option value='houseKeepingBookings'>House Keeping</option>
+            </Select>
+          </div>
+
+          <CreateBookingButton onClick={() => setOpenModal(true)}>
+            Create booking
+          </CreateBookingButton>
+        </FilterBookingCreateBookingContainer>
       </BookingsHeaderContainer>
+
       <BookingsLabelsContainer>
         <BookingLabel>Customer</BookingLabel>
         <BookingLabel>Email</BookingLabel>
         <BookingLabel>Address</BookingLabel>
         <BookingLabel>Booking Type</BookingLabel>
-        <BookingLabel>Booking Date/Time</BookingLabel>
+        <BookingDateTimeLabel>Booking Date/Time</BookingDateTimeLabel>
       </BookingsLabelsContainer>
 
       <DataContainer>
-        {data.getBookings
-          ? data.getBookings
-              .slice()
-              .sort((a, b) => a.date - b.date)
-              .map((booking) => {
-                return (
-                  <BookingDataContainer key={booking.id}>
-                    <BookingData>{booking.name}</BookingData>
-                    <BookingData>{booking.email}</BookingData>
+        <AllBookings data={data} bookings={bookings} />
 
-                    <BookingData>
-                      <div>{booking.address}</div>
-                      <span>{booking.city},</span> <span>{booking.state},</span>{' '}
-                      <span>{booking.zip}</span>
-                    </BookingData>
-                    <BookingData>{booking.bookingType}</BookingData>
-                    <BookingData>{booking.bookingDateAndTime}</BookingData>
-                  </BookingDataContainer>
-                )
-              })
-          : null}
+        <DogBookings data={data} bookings={bookings} />
+
+        <HouseBookings data={data} bookings={bookings} />
       </DataContainer>
 
       {openModal ? (

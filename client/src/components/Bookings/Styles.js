@@ -8,13 +8,30 @@ const BookingsHeaderContainer = styled.div`
   align-items: center;
   padding: 0.5rem;
   width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto 1rem auto;
 `
 const BookingsHeader = styled.div`
   font-size: 24px;
   letter-spacing: 0.1rem;
 `
 
+const FilterBookingCreateBookingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const FilterBookingsSpan = styled.span`
+  font-size 14px;
+  margin: 0 0.25rem 0 0;
+`
+const Select = styled.select`
+  width: 128px;
+  height: 29px;
+  margin: 0 1rem 0 0;
+  &:focus {
+    outline: none;
+  }
+`
 const BookingsLabelsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -24,26 +41,19 @@ const BookingsLabelsContainer = styled.div`
   padding: 0rem 0.5rem;
 `
 const BookingLabel = styled.span`
-  width: 15rem;
+  width: 20rem;
 `
+const BookingDateTimeLabel = styled.span`
+  width: 14rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`
+
 const DataContainer = styled.div`
   margin: 0.5rem;
 `
 
-const BookingDataContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 1200px;
-  margin: 0 auto;
-  background-color: #fff;
-  border: 1px solid #e3e0e0;
-  padding: 0.5rem;
-  font-size: 12px;
-`
-const BookingData = styled.div`
-  width: 15rem;
-`
 const CreateBookingButton = styled.button`
   width: 128px;
   height: 29px;
@@ -61,10 +71,12 @@ export {
   BookingsContainer,
   BookingsHeaderContainer,
   BookingsHeader,
+  FilterBookingCreateBookingContainer,
+  FilterBookingsSpan,
+  Select,
   BookingsLabelsContainer,
   BookingLabel,
+  BookingDateTimeLabel,
   DataContainer,
-  BookingDataContainer,
-  BookingData,
   CreateBookingButton,
 }

@@ -1,3 +1,4 @@
+//create unix time from booking date data to allow sorting by date and time
 const unixDateFormatter = (booking) => {
   let bookingDateArr = booking.dataValues.bookingDate.split('-')
   const index = bookingDateArr.indexOf('00')
