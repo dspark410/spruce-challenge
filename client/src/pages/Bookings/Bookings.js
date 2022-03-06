@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_BOOOKINGS } from '../../graphql/queries'
-import BookingModal from '../BookingModal/BookingModal'
+import BookingModal from '../../components/BookingModal/BookingModal'
 import {
   BookingsContainer,
   BookingsHeaderContainer,
@@ -9,16 +9,17 @@ import {
   FilterBookingCreateBookingContainer,
   FilterBookingsSpan,
   Select,
+  LoadMoreButton,
   BookingsLabelsContainer,
   BookingLabel,
   BookingDateTimeLabel,
   DataContainer,
   CreateBookingButton,
 } from './Styles'
-import AllBookings from '../AllBookings/AllBookings'
-import DogBookings from '../DogBookings/DogBookings'
-import HouseBookings from '../HouseBookings/HouseBookings'
-import Loader from '../Loader/Loader'
+import AllBookings from '../../components/AllBookings/AllBookings'
+import DogBookings from '../../components/DogBookings/DogBookings'
+import HouseBookings from '../../components/HouseBookings/HouseBookings'
+import Loader from '../../components/Loader/Loader'
 
 function Bookings() {
   const [openModal, setOpenModal] = useState(false)
@@ -28,7 +29,9 @@ function Bookings() {
     houseKeepingBookings: false,
   })
 
-  const { loading, data, error } = useQuery(GET_BOOOKINGS)
+  const { loading, data, error, fetchMore } = useQuery(GET_BOOOKINGS)
+
+  //console.log(data)
 
   // close create booking modal
   const closeModal = () => setOpenModal(false)
@@ -73,6 +76,19 @@ function Bookings() {
             </Select>
           </div>
 
+          {data.getBookings.bookings && (
+            <LoadMoreButton
+              disabled={!data.getBookings.hasMore}
+              onClick={() =>
+                fetchMore({
+                  variables: {
+                    after: data.getBookings.cursor,
+                  },
+                })
+              }>
+              Load More
+            </LoadMoreButton>
+          )}
           <CreateBookingButton onClick={() => setOpenModal(true)}>
             Create booking
           </CreateBookingButton>

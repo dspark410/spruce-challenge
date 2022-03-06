@@ -9,9 +9,7 @@ function HouseBookings({ data, bookings }) {
   return !bookings.allBookings &&
     !bookings.dogWalkBookings &&
     bookings.houseKeepingBookings
-    ? data.getBookings
-        .slice()
-        .sort((a, b) => a.date - b.date)
+    ? data.getBookings.bookings
         .filter((b) => b.bookingType === 'House Keeping')
         .map((booking) => {
           return (

@@ -32,6 +32,20 @@ const Select = styled.select`
     outline: none;
   }
 `
+const LoadMoreButton = styled.button`
+  width: 128px;
+  height: 29px;
+  color: #333333;
+  background-color: ${(props) => (props.disabled ? 'grey' : '#f29648')};
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 0 3px #434242;
+  margin: 0 0.5rem 0 0;
+  opacity: ${(props) => (props.disabled ? '75%' : '100%')};
+  &:hover {
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  }
+`
 const BookingsLabelsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -51,7 +65,7 @@ const BookingDateTimeLabel = styled.span`
 `
 
 const DataContainer = styled.div`
-  margin: 0.5rem;
+  margin: 0.5rem 0 3rem 0;
 `
 
 const CreateBookingButton = styled.button`
@@ -74,6 +88,7 @@ export {
   FilterBookingCreateBookingContainer,
   FilterBookingsSpan,
   Select,
+  LoadMoreButton,
   BookingsLabelsContainer,
   BookingLabel,
   BookingDateTimeLabel,

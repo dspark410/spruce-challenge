@@ -10,9 +10,17 @@ for (let i = 0; i < 100; i++) {
   const booking = {}
 
   const month = new Date(faker.date.future()).getMonth().toString()
+
   const year = new Date(faker.date.future()).getFullYear().toString()
   const day = new Date(faker.date.future()).getDate().toString()
-  const adjustedMonth = month.length < 2 ? `0${month}` : month
+  const adjustedMonth =
+    month.length < 2 && month !== '9'
+      ? `0${month === '0' ? 1 : `${+month + 1}`}`
+      : month === '9'
+      ? '10'
+      : `${+month + 1}`
+
+  console.log(month, adjustedMonth)
   const adjustedDay = day.length < 2 ? `0${day}` : day
   const hour = new Date(faker.date.future()).getHours().toString()
   const minute = new Date(faker.date.future()).getMinutes().toString()

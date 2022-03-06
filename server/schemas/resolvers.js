@@ -1,12 +1,20 @@
 const Booking = require('../models/Booking')
 const dateFormatter = require('../utils/dateFormat')
 const unixDateFormatter = require('../utils/unixDate')
+const paginateResults = require('../utils/pagination')
 
 const resolvers = {
   Query: {
-    getBookings: async () => {
+    getBookings: async (parent, { pageSize = 20, after }) => {
       try {
-        const bookings = await Booking.findAll()
+        const bookings = await Booking.findAll({
+          order: [
+            ['bookingDate', 'ASC'],
+            ['bookingTime', 'ASC'],
+          ],
+        })
+
+        //console.log(bookings)
 
         const flattenedBookings = bookings.map((booking) => {
           return {
@@ -26,7 +34,22 @@ const resolvers = {
           }
         })
 
-        return flattenedBookings
+        const paginatedBookings = paginateResults({
+          after,
+          pageSize,
+          results: flattenedBookings,
+        })
+
+        return {
+          bookings: paginatedBookings,
+          cursor: paginatedBookings.length
+            ? paginatedBookings[paginatedBookings.length - 1].cursor
+            : null,
+          hasMore: paginatedBookings.length
+            ? paginatedBookings[paginatedBookings.length - 1].cursor !==
+              flattenedBookings[flattenedBookings.length - 1].cursor
+            : false,
+        }
       } catch (error) {
         console.log(error)
       }
@@ -76,6 +99,7 @@ const resolvers = {
           bookingDate: booking.dataValues.bookingDate,
           bookingTime: booking.dataValues.bookingTime,
           bookingDateAndTime: dateFormatter(booking),
+          cursor: booking.dataValues.cursor,
         }
       } catch (err) {
         console.log(err)

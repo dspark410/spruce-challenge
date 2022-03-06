@@ -17,8 +17,14 @@ const typeDefs = gql`
     cursor: String
   }
 
+  type BookingConnection {
+    cursor: String
+    hasMore: Boolean
+    bookings: [Booking]
+  }
+
   type Query {
-    getBookings: [Booking]
+    getBookings(pageSize: Int, after: String): BookingConnection
   }
 
   type Mutation {

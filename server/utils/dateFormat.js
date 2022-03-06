@@ -18,10 +18,7 @@ const dateFormatter = (booking) => {
   const bookingDateArr = booking.dataValues.bookingDate.split('-')
   const bookingTimeArr = booking.dataValues.bookingTime.split(':')
 
-  const month =
-    monthNames[
-      bookingDateArr[1] === '00' ? +bookingDateArr[1] : +bookingDateArr[1] - 1
-    ]
+  const month = monthNames[+bookingDateArr[1] - 1]
   const day = +bookingDateArr[2]
 
   const hour = +bookingTimeArr[0]
