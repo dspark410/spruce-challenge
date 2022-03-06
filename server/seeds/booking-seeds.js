@@ -20,7 +20,6 @@ for (let i = 0; i < 100; i++) {
       ? '10'
       : `${+month + 1}`
 
-  console.log(month, adjustedMonth)
   const adjustedDay = day.length < 2 ? `0${day}` : day
   const hour = new Date(faker.date.future()).getHours().toString()
   const minute = new Date(faker.date.future()).getMinutes().toString()
